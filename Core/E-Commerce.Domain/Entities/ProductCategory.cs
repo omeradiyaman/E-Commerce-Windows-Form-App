@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace E_Commerce.Domain.Entities
 {
-    public class Wishlist
+    public class ProductCategory
     {
-        public int FavoriteId { get; set; }
-        public int UserId { get; set; }
+        public int ProductCategoryId { get; set; }
         public int ProductId { get; set; }
-        public User User { get; set; }
         public Product Product { get; set; }
+        public int CategoryId { get; set; }
+        public Category Category { get; set; }
     }
 }

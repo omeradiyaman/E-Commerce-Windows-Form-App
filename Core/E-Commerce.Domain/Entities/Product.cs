@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,8 +14,6 @@ namespace E_Commerce.Domain.Entities
         public decimal Price { get; set; }
         public string? ImageUrl { get; set; }
         public int? UnitInStock { get; set; }
-        public List<Category> Categories { get; set; }
-        public int CategoryId { get; set; }
-        public List<Wishlist> Wishlists { get; set; }
+        public List<ProductCategory> ProductCategories { get; set; }
     }
 }

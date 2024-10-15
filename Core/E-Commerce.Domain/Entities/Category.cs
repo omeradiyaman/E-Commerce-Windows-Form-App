@@ -10,6 +10,6 @@ namespace E_Commerce.Domain.Entities
     {
         public int CategoryId { get; set; }
         public required string Name { get; set; }
-        public List<Product> Products { get; set; }
+        public List<ProductCategory> ProductCategories { get; set; }
     }
 }
