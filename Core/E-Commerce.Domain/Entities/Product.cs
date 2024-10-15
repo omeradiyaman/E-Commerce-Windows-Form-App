@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace E_Commerce.Domain
+namespace E_Commerce.Domain.Entities
 {
     public class Product
     {
@@ -12,10 +12,9 @@ namespace E_Commerce.Domain
         public required string Name { get; set; }
         public decimal Price { get; set; }
         public string? ImageUrl { get; set; }
-        public string? Email { get; set; }
         public int? UnitInStock { get; set; }
         public List<Category> Categories { get; set; }
         public int CategoryId { get; set; }
-
+        public List<Wishlist> Wishlists { get; set; }
     }
 }

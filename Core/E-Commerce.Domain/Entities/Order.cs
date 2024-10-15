@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace E_Commerce.Domain
+namespace E_Commerce.Domain.Entities
 {
     public class Order
     {
@@ -13,6 +13,7 @@ namespace E_Commerce.Domain
         public User User { get; set; }
         public DateTime OrderDate { get; set; }
         public decimal TotalAmount { get; set; }
-        public string Status { get; set; }
+        public State OrderState { get; set; }
+        public List<OrderDetail> OrderDetails { get; set; }
     }
 }
