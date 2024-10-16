@@ -22,6 +22,37 @@ namespace E_Commerce.Persistence.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("E_Commerce.Domain.Entities.Admin", b =>
+                {
+                    b.Property<int>("AdminId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AdminId"));
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
+
+                    b.Property<string>("Surname")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.HasKey("AdminId");
+
+                    b.ToTable("Admins");
+                });
+
             modelBuilder.Entity("E_Commerce.Domain.Entities.Category", b =>
                 {
                     b.Property<int>("CategoryId")
@@ -40,6 +71,51 @@ namespace E_Commerce.Persistence.Migrations
                     b.ToTable("Categories");
                 });
 
+            modelBuilder.Entity("E_Commerce.Domain.Entities.Order", b =>
+                {
+                    b.Property<int>("OrderId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderId"));
+
+                    b.Property<DateTime?>("OrderDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("OrderId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Orders");
+                });
+
+            modelBuilder.Entity("E_Commerce.Domain.Entities.OrderDetail", b =>
+                {
+                    b.Property<int>("OrderId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<float>("Discount")
+                        .HasColumnType("real");
+
+                    b.Property<int>("OrderState")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("OrderId", "ProductId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("OrderDetails");
+                });
+
             modelBuilder.Entity("E_Commerce.Domain.Entities.Product", b =>
                 {
                     b.Property<int>("ProductId")
@@ -53,7 +129,8 @@ namespace E_Commerce.Persistence.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
@@ -68,18 +145,23 @@ namespace E_Commerce.Persistence.Migrations
 
             modelBuilder.Entity("E_Commerce.Domain.Entities.ProductCategory", b =>
                 {
-                    b.Property<int>("ProductId")
+                    b.Property<int>("ProductCategoryId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductCategoryId"));
 
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ProductCategoryId")
+                    b.Property<int>("ProductId")
                         .HasColumnType("int");
 
-                    b.HasKey("ProductId", "CategoryId");
+                    b.HasKey("ProductCategoryId");
 
                     b.HasIndex("CategoryId");
+
+                    b.HasIndex("ProductId");
 
                     b.ToTable("ProductCategories");
                 });
@@ -124,6 +206,36 @@ namespace E_Commerce.Persistence.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("E_Commerce.Domain.Entities.Order", b =>
+                {
+                    b.HasOne("E_Commerce.Domain.Entities.User", "User")
+                        .WithMany("Orders")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("E_Commerce.Domain.Entities.OrderDetail", b =>
+                {
+                    b.HasOne("E_Commerce.Domain.Entities.Order", "Order")
+                        .WithMany("OrderDetails")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("E_Commerce.Domain.Entities.Product", "Product")
+                        .WithMany("OrderDetails")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Order");
+
+                    b.Navigation("Product");
+                });
+
             modelBuilder.Entity("E_Commerce.Domain.Entities.ProductCategory", b =>
                 {
                     b.HasOne("E_Commerce.Domain.Entities.Category", "Category")
@@ -148,9 +260,21 @@ namespace E_Commerce.Persistence.Migrations
                     b.Navigation("ProductCategories");
                 });
 
+            modelBuilder.Entity("E_Commerce.Domain.Entities.Order", b =>
+                {
+                    b.Navigation("OrderDetails");
+                });
+
             modelBuilder.Entity("E_Commerce.Domain.Entities.Product", b =>
                 {
+                    b.Navigation("OrderDetails");
+
                     b.Navigation("ProductCategories");
+                });
+
+            modelBuilder.Entity("E_Commerce.Domain.Entities.User", b =>
+                {
+                    b.Navigation("Orders");
                 });
 #pragma warning restore 612, 618
         }

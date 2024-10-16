@@ -16,5 +16,6 @@ namespace E_Commerce.Domain.Entities
         public required string Surname { get; set; }
         public string? PhoneNumber { get; set; }
         public string? Address { get; set; }
+        public List<Order> Orders { get; set; }
     }
 }

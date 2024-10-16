@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace E_Commerce.Domain.Entities
 {
-    public enum State
+    public enum OrderStatus
     {
-        InCart,
         Processing,
-        OutForDelivery,
+        Shipped,
+        Delivered
     }
 }

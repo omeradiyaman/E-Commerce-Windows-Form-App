@@ -15,5 +15,6 @@ namespace E_Commerce.Domain.Entities
         public string? ImageUrl { get; set; }
         public int? UnitInStock { get; set; }
         public List<ProductCategory> ProductCategories { get; set; }
+        public List<OrderDetail> OrderDetails { get; set; }
     }
 }
