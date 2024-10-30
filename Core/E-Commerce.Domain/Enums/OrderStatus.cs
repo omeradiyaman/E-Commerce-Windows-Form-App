@@ -4,12 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace E_Commerce.Domain.Entities
+namespace E_Commerce.Domain.Enums
 {
     public enum OrderStatus
     {
-        Processing,
-        Shipped,
-        Delivered
+        Processing = 1,
+        Shipped = 2,
+        Delivered = 3,
+        Cancelled,
     }
 }

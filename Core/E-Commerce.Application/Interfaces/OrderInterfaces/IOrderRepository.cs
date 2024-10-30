@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace E_Commerce.Application.Interfaces.OrderInterface
 {
-    public interface IOrderRepository : IRepository<Order>
+    public interface IOrderRepository
     {
 
     }

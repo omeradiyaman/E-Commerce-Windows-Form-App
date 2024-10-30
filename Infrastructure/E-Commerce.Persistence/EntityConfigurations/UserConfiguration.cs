@@ -19,6 +19,8 @@ namespace E_Commerce.Persistence.EntityConfigurations
             builder.Property(x => x.Password).HasMaxLength(25);
             builder.Property(x => x.PhoneNumber).HasMaxLength(11);
             builder.Property(x => x.Address).HasMaxLength(100);
+        
         }
+
     }
 }

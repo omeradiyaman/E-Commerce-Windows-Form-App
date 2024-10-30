@@ -15,7 +15,6 @@ namespace E_Commerce.Persistence.EntityConfigurations
         public void Configure(EntityTypeBuilder<ProductCategory> builder)
         {
 
-            builder.HasKey(pc => new { pc.ProductId, pc.CategoryId });
             builder
                 .HasOne(x => x.Product)
                 .WithMany(y => y.ProductCategories)

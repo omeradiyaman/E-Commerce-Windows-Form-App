@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace E_Commerce.Application.Interfaces.AdminInterface
 {
-    public interface IAdminRepository : IRepository<Admin>
+    public interface IAdminRepository
     {
 
     }

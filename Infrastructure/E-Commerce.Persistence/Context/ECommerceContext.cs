@@ -19,18 +19,25 @@ namespace E_Commerce.Persistence.Context
         public DbSet<Category> Categories { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductCategory> ProductCategories { get; set; }
-        public DbSet<Admin> Admins { get; set; }
         public DbSet<Order> Orders { get; set; }
-        public DbSet<OrderDetail> OrderDetails { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
+        public DbSet<Cart> Carts { get; set; }
+        public DbSet<CartItem> CartItems { get; set; }
+        public DbSet<Discount> Discounts { get; set; }
+        public DbSet<Wishlist> Wishlists { get; set; }
+        public DbSet<WishlistItem> WishlistItems { get; set; }
+        public DbSet<Review> Reviews { get; set; }
+        public DbSet<Shipment> Shipments { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-           modelBuilder.ApplyConfiguration<Admin>(new AdminConfiguration());
            modelBuilder.ApplyConfiguration<Category>(new CategoryConfiguration());
            modelBuilder.ApplyConfiguration<Product>(new ProductConfiguration());
            modelBuilder.ApplyConfiguration<Order>(new OrderConfiguration());
            modelBuilder.ApplyConfiguration<User>(new UserConfiguration());
-           modelBuilder.ApplyConfiguration<OrderDetail>(new OrderDetailConfiguration());
+           modelBuilder.ApplyConfiguration<OrderItem>(new OrderItemConfiguration());
+           modelBuilder.ApplyConfiguration<WishlistItem>(new WishlistItemConfiguration());
            base.OnModelCreating(modelBuilder);
             
         }

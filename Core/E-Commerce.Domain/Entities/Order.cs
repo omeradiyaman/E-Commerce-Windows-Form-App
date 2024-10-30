@@ -1,4 +1,5 @@
-﻿using System;
+﻿using E_Commerce.Domain.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,8 +11,13 @@ namespace E_Commerce.Domain.Entities
     {
         public int OrderId { get; set; }
         public int UserId { get; set; }
-        public DateTime? OrderDate { get; set; }
-        public virtual User User { get; set; }
-        public List<OrderDetail> OrderDetails { get; set; }
+        public DateTime OrderDate { get; set; }
+        public User User { get; set; }
+        public OrderStatus OrderState { get; set; }
+        public string ShippingAddress { get; set; }
+        public decimal Amount { get; set; }
+        public Payment Payment { get; set; }
+        public Shipment Shipment { get; set; }
+        public List<OrderItem> OrderItems { get; set; }
     }
 }

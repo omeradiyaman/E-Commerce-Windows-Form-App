@@ -9,19 +9,20 @@ using System.Threading.Tasks;
 
 namespace E_Commerce.Persistence.EntityConfigurations
 {
-    public class OrderDetailConfiguration : IEntityTypeConfiguration<OrderDetail>
+    public class OrderItemConfiguration : IEntityTypeConfiguration<OrderItem>
     {
-        public void Configure(EntityTypeBuilder<OrderDetail> builder)
+        public void Configure(EntityTypeBuilder<OrderItem> builder)
         {
-            builder.HasKey(a=> new { a.OrderId, a.ProductId });
 
             builder.HasOne(x => x.Order)
-                   .WithMany(y => y.OrderDetails)
-                   .HasForeignKey(x => x.OrderId);
+                   .WithMany(y => y.OrderItems)
+                   .HasForeignKey(x => x.OrderId)
+                   .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasOne(x => x.Product)
                    .WithMany(y => y.OrderDetails)
-                   .HasForeignKey(z => z.ProductId);
+                   .HasForeignKey(z => z.ProductId)
+                   .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

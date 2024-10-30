@@ -15,7 +15,8 @@ namespace E_Commerce.Persistence.EntityConfigurations
         {
             builder.HasOne(x => x.User)
                    .WithMany(y => y.Orders)
-                   .HasForeignKey(z => z.UserId);
+                   .HasForeignKey(z => z.UserId)
+                   .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

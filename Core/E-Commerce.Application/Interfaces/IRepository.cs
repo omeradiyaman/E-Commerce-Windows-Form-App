@@ -8,11 +8,10 @@ namespace E_Commerce.Application.Interfaces
 {
     public interface IRepository<T> where T : class
     {
-        Task<T> GetById(int id);
-        Task<List<T>> GetAll();
-        Task<T> Add(T entity);
-        void Update(T entity);
-        void Delete(int id);
-        int SaveChanges();
+        Task<T> GetByIdAsync(int id);
+        Task<List<T>> GetAllAsync();
+        Task CreateAsync(T entity);
+        Task UpdateAsync(T entity);
+        Task DeleteAsync(T entity);
     }
 }

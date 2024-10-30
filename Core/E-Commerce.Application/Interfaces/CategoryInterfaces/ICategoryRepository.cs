@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace E_Commerce.Application.Interfaces.CategoryInterface
 {
-    public interface ICategoryRepository : IRepository<Category>
+    public interface ICategoryRepository 
     {
 
     }

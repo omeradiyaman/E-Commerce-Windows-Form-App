@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace E_Commerce.Application.Interfaces.ProductInterfaces
 {
-    public interface IProductRepository : IRepository<Product>
+    public interface IProductRepository
     {
 
     }

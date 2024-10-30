@@ -3,19 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using E_Commerce.Domain.Enums;
 
 namespace E_Commerce.Domain.Entities
 {
-    public class OrderDetail
+    public class OrderItem
     {
+        public int OrderItemId { get; set; }
         public int OrderId { get; set; }
-        public virtual Order Order { get; set; }
+        public Order Order { get; set; }
         public int ProductId { get; set; }
-        public virtual Product Product { get; set; }
+        public Product Product { get; set; }
         public int Quantity { get; set; }
-        public float Discount { get; set; }
-        public OrderStatus OrderState { get; set; }
-
-        
+        public int UnitPrice { get; set; }
     }
 }
