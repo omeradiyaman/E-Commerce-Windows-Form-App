@@ -4,12 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace E_Commerce.Domain.Entities
+namespace E_Commerce.Domain.Enums
 {
-    public enum State
+    public enum ShipmentStatus
     {
-        InCart,
-        Processing,
+        Pending = 1,
+        Shipped,
+        InTransit,
         OutForDelivery,
+        Delivered,
+        Returned
     }
 }

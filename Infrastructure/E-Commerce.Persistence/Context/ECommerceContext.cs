@@ -1,4 +1,5 @@
 ﻿using E_Commerce.Domain.Entities;
+using E_Commerce.Persistence.EntityConfigurations;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -14,42 +15,31 @@ namespace E_Commerce.Persistence.Context
         {
             optionsBuilder.UseSqlServer("Server=MAHSUN;initial Catalog=ECommerceDb;integrated security=true;TrustServerCertificate=true;");
         }
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<User>().Property(x => x.Name).HasMaxLength(20);
-            modelBuilder.Entity<User>().Property(x => x.Surname).HasMaxLength(20);
-            modelBuilder.Entity<User>().Property(x => x.Password).HasMaxLength(25);
-            modelBuilder.Entity<User>().Property(x => x.PhoneNumber).HasMaxLength(11);
-            modelBuilder.Entity<Category>().Property(x => x.Name).HasMaxLength(20);
-            modelBuilder.Entity<User>().Property(x => x.Address).HasMaxLength(100);
-
-
-            //modelBuilder.Entity<ProductOrder>()
-            //    .HasKey(pc => new { pc.OrderId, pc.ProductId });
-            //modelBuilder.Entity<ProductOrder>()
-            //    .HasOne(x => x.Product)
-            //    .WithMany(y => y.ProductOrders)
-            //    .HasForeignKey(z => z.ProductId);
-
-            //modelBuilder.Entity<ProductOrder>()
-            //    .HasOne(x => x.Order)
-            //    .WithMany(y => y.ProductOrders)
-            //    .HasForeignKey(z => z.OrderId);
-
-            modelBuilder.Entity<ProductCategory>()
-                .HasKey(pc => new { pc.ProductId, pc.CategoryId });
-            modelBuilder.Entity<ProductCategory>()
-                .HasOne(x => x.Product)
-                .WithMany(y => y.ProductCategories)
-                .HasForeignKey(z => z.ProductId);
-            modelBuilder.Entity<ProductCategory>()
-                .HasOne(x => x.Category)
-                .WithMany(y => y.ProductCategories)
-                .HasForeignKey(z => z.CategoryId);
-        }
         public DbSet<User> Users { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductCategory> ProductCategories { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
+        public DbSet<Cart> Carts { get; set; }
+        public DbSet<CartItem> CartItems { get; set; }
+        public DbSet<Discount> Discounts { get; set; }
+        public DbSet<Wishlist> Wishlists { get; set; }
+        public DbSet<WishlistItem> WishlistItems { get; set; }
+        public DbSet<Review> Reviews { get; set; }
+        public DbSet<Shipment> Shipments { get; set; }
+
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+           modelBuilder.ApplyConfiguration<Category>(new CategoryConfiguration());
+           modelBuilder.ApplyConfiguration<Product>(new ProductConfiguration());
+           modelBuilder.ApplyConfiguration<Order>(new OrderConfiguration());
+           modelBuilder.ApplyConfiguration<User>(new UserConfiguration());
+           modelBuilder.ApplyConfiguration<OrderItem>(new OrderItemConfiguration());
+           modelBuilder.ApplyConfiguration<WishlistItem>(new WishlistItemConfiguration());
+           base.OnModelCreating(modelBuilder);
+            
+        }
     }
 }

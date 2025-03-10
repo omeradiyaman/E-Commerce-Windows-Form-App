@@ -16,5 +16,11 @@ namespace E_Commerce.Domain.Entities
         public required string Surname { get; set; }
         public string? PhoneNumber { get; set; }
         public string? Address { get; set; }
+        public bool IsAdmin { get; set; }
+        public List<Order> Orders { get; set; }
+        public List<Cart> Carts { get; set; }
+        public Wishlist Wishlist { get; set; }
+        public List<Review> Reviews { get; set; }
+        
     }
 }
