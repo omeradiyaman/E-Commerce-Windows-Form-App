@@ -1,0 +1,453 @@
+﻿<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{F51363C5-A360-44D5-8182-93B09C27B43B}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>E_Ticaret</RootNamespace>
+    <AssemblyName>E-Ticaret</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="BouncyCastle.Cryptography, Version=2.0.0.0, Culture=neutral, PublicKeyToken=072edcf4a5328938, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\BouncyCastle.Cryptography.2.4.0\lib\net461\BouncyCastle.Cryptography.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.BonusSkins.v24.1" />
+    <Reference Include="DevExpress.CodeParser.v24.1, Version=24.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Dashboard.v24.1.Core, Version=24.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Data.Desktop.v24.1" />
+    <Reference Include="DevExpress.Data.v24.1" />
+    <Reference Include="DevExpress.DataAccess.v24.1, Version=24.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Utils.v24.1" />
+    <Reference Include="DevExpress.Sparkline.v24.1.Core" />
+    <Reference Include="DevExpress.Xpo.v24.1, Version=24.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraBars.v24.1, Version=24.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraEditors.v24.1" />
+    <Reference Include="DevExpress.Printing.v24.1.Core" />
+    <Reference Include="DevExpress.Drawing.v24.1" />
+    <Reference Include="DevExpress.XtraGrid.v24.1, Version=24.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraLayout.v24.1, Version=24.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraPrinting.v24.1, Version=24.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="MailKit, Version=4.8.0.0, Culture=neutral, PublicKeyToken=4e064fe7c44a8f1b, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\MailKit.4.8.0\lib\net47\MailKit.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="MimeKit, Version=4.8.0.0, Culture=neutral, PublicKeyToken=bede1c8a46c66814, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\MimeKit.4.8.0\lib\net47\MimeKit.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Core" />
+    <Reference Include="System.Formats.Asn1, Version=8.0.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Formats.Asn1.8.0.1\lib\net462\System.Formats.Asn1.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Memory, Version=4.0.1.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Memory.4.5.5\lib\net461\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Runtime.CompilerServices.Unsafe.6.0.0\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security" />
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ActivateEmailForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ActivateEmailForm.Designer.cs">
+      <DependentUpon>ActivateEmailForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AdminLoginForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AdminLoginForm.Designer.cs">
+      <DependentUpon>AdminLoginForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CategoryAddForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CategoryAddForm.Designer.cs">
+      <DependentUpon>CategoryAddForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CategoryForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CategoryForm.Designer.cs">
+      <DependentUpon>CategoryForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CategoryUpdateForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CategoryUpdateForm.Designer.cs">
+      <DependentUpon>CategoryUpdateForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CreditCardActivateForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CreditCardActivateForm.Designer.cs">
+      <DependentUpon>CreditCardActivateForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CreditCardForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CreditCardForm.Designer.cs">
+      <DependentUpon>CreditCardForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Enums\PaymentStatus.cs" />
+    <Compile Include="Enums\Rating.cs" />
+    <Compile Include="Enums\OrderStatus.cs" />
+    <Compile Include="LoadingForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LoadingForm.Designer.cs">
+      <DependentUpon>LoadingForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OrdersPanelForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OrdersPanelForm.Designer.cs">
+      <DependentUpon>OrdersPanelForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AdminPanelForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AdminPanelForm.Designer.cs">
+      <DependentUpon>AdminPanelForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DashboardForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DashboardForm.Designer.cs">
+      <DependentUpon>DashboardForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OrderStatusUpdateForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OrderStatusUpdateForm.Designer.cs">
+      <DependentUpon>OrderStatusUpdateForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ResetPasswordForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ResetPasswordForm.Designer.cs">
+      <DependentUpon>ResetPasswordForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserLoginForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserLoginForm.Designer.cs">
+      <DependentUpon>UserLoginForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ProductAddForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ProductAddForm.Designer.cs">
+      <DependentUpon>ProductAddForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ProductForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ProductForm.Designer.cs">
+      <DependentUpon>ProductForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ProductUpdateForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ProductUpdateForm.Designer.cs">
+      <DependentUpon>ProductUpdateForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="UserCartForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserCartForm.Designer.cs">
+      <DependentUpon>UserCartForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserOrderForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserOrderForm.Designer.cs">
+      <DependentUpon>UserOrderForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserProfileForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserProfileForm.Designer.cs">
+      <DependentUpon>UserProfileForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserRegisterForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserRegisterForm.Designer.cs">
+      <DependentUpon>UserRegisterForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserWishlistForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserWishlistForm.Designer.cs">
+      <DependentUpon>UserWishlistForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WelcomeForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WelcomeForm.Designer.cs">
+      <DependentUpon>WelcomeForm.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="ActivateEmailForm.resx">
+      <DependentUpon>ActivateEmailForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AdminLoginForm.resx">
+      <DependentUpon>AdminLoginForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CategoryAddForm.resx">
+      <DependentUpon>CategoryAddForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CategoryForm.resx">
+      <DependentUpon>CategoryForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CategoryUpdateForm.resx">
+      <DependentUpon>CategoryUpdateForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CreditCardActivateForm.resx">
+      <DependentUpon>CreditCardActivateForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CreditCardForm.resx">
+      <DependentUpon>CreditCardForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LoadingForm.resx">
+      <DependentUpon>LoadingForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OrdersPanelForm.resx">
+      <DependentUpon>OrdersPanelForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AdminPanelForm.resx">
+      <DependentUpon>AdminPanelForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DashboardForm.resx">
+      <DependentUpon>DashboardForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OrderStatusUpdateForm.resx">
+      <DependentUpon>OrderStatusUpdateForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ResetPasswordForm.resx">
+      <DependentUpon>ResetPasswordForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserLoginForm.resx">
+      <DependentUpon>UserLoginForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ProductAddForm.resx">
+      <DependentUpon>ProductAddForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ProductForm.resx">
+      <DependentUpon>ProductForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ProductUpdateForm.resx">
+      <DependentUpon>ProductUpdateForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\licenses.licx" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserCartForm.resx">
+      <DependentUpon>UserCartForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserOrderForm.resx">
+      <DependentUpon>UserOrderForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserProfileForm.resx">
+      <DependentUpon>UserProfileForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserRegisterForm.resx">
+      <DependentUpon>UserRegisterForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserWishlistForm.resx">
+      <DependentUpon>UserWishlistForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WelcomeForm.resx">
+      <DependentUpon>WelcomeForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\welcome2.gif" />
+    <None Include="Resources\welcome %281%29.gif" />
+    <None Include="Resources\welcome.gif" />
+    <None Include="Resources\userOrderDelivery.png" />
+    <None Include="Resources\userOrderBlack.png" />
+    <None Include="Resources\userProfileBlack.png" />
+    <None Include="Resources\userProfileIcon.jpeg" />
+    <None Include="Resources\whiteHeartSilhoutte.png" />
+    <None Include="Resources\danial klein saat.jpeg" />
+    <None Include="Resources\danielKleinKadınSaat.jpeg" />
+    <None Include="Resources\blackHeart.png" />
+    <None Include="Resources\activateUser.png" />
+    <None Include="Resources\activateUser2.png" />
+    <None Include="Resources\cargo.png" />
+    <None Include="Resources\creditCardTopIcon.png" />
+    <None Include="Resources\creditCardIcon.png" />
+    <None Include="Resources\arrowBackBlack.png" />
+    <None Include="Resources\arrowBackBlue.png" />
+    <None Include="Resources\arrowRightBlack.png" />
+    <None Include="Resources\arrowRightBlue.png" />
+    <None Include="Resources\arrowLeftBlue.png" />
+    <Content Include="Resources\favoriteIcon.png" />
+    <Content Include="Resources\favoriteOrangeIcon.png" />
+    <None Include="Resources\wishlist.png" />
+    <None Include="Resources\delivery.png" />
+    <None Include="Resources\add cateogry.png" />
+    <Content Include="Resources\add cateogry1.png" />
+    <None Include="Resources\add-product %281%29.png" />
+    <Content Include="Resources\add-product.png" />
+    <Content Include="Resources\add.png" />
+    <Content Include="Resources\app.png" />
+    <None Include="Resources\app1.png" />
+    <Content Include="Resources\arrow-left.png" />
+    <Content Include="Resources\audience.png" />
+    <Content Include="Resources\best-product.png" />
+    <Content Include="Resources\box %282%29.png" />
+    <Content Include="Resources\box.png" />
+    <Content Include="Resources\box1.png" />
+    <Content Include="Resources\cartBlack.png" />
+    <Content Include="Resources\cartOrange.png" />
+    <Content Include="Resources\carts.png" />
+    <Content Include="Resources\categorization.png" />
+    <None Include="Resources\category %281%29.png" />
+    <Content Include="Resources\category %281%291.png" />
+    <Content Include="Resources\category.png" />
+    <Content Include="Resources\computer-administrator.png" />
+    <Content Include="Resources\database-user.png" />
+    <Content Include="Resources\database-user1.png" />
+    <None Include="Resources\delivery-box.png" />
+    <Content Include="Resources\eye.png" />
+    <Content Include="Resources\heartBlack.png" />
+    <Content Include="Resources\heartOrange.png" />
+    <Content Include="Resources\hidden.png" />
+    <Content Include="Resources\hide.png" />
+    <Content Include="Resources\home %281%29.png" />
+    <None Include="Resources\homeBlack.png" />
+    <None Include="Resources\homeOrange.png" />
+    <None Include="Resources\homeIconBlack.png" />
+    <None Include="Resources\homeIconOrange.png" />
+    <None Include="Resources\homeIconWhite.png" />
+    <Content Include="Resources\improve.png" />
+    <None Include="Resources\jujutsu_kaisen.jpg" />
+    <None Include="Resources\loading.gi.gif" />
+    <Content Include="Resources\login.png" />
+    <None Include="Resources\login1.png" />
+    <Content Include="Resources\logina.png" />
+    <None Include="Resources\logoutBlack.png" />
+    <None Include="Resources\logoutOrange.png" />
+    <Content Include="Resources\management.png" />
+    <Content Include="Resources\menu.png" />
+    <None Include="Resources\noImage.png" />
+    <Content Include="Resources\options.png" />
+    <None Include="Resources\orangeHeartTransparent.png" />
+    <None Include="Resources\orderStatus.png" />
+    <Content Include="Resources\product %281%29.png" />
+    <None Include="Resources\product.png" />
+    <Content Include="Resources\product1.png" />
+    <Content Include="Resources\profile.png" />
+    <Content Include="Resources\register.png" />
+    <None Include="Resources\registera7.png" />
+    <Content Include="Resources\registera71.png" />
+    <None Include="Resources\removeIcon.png" />
+    <None Include="Resources\reset-password.png" />
+    <None Include="Resources\reset-password %281%29.png" />
+    <Content Include="Resources\search.png" />
+    <Content Include="Resources\search1.png" />
+    <None Include="Resources\security.png" />
+    <None Include="Resources\securePayment.png" />
+    <Content Include="Resources\security1.png" />
+    <Content Include="Resources\security2.png" />
+    <None Include="Resources\sheezy.jpeg" />
+    <None Include="Resources\sheezy3.jpeg" />
+    <None Include="Resources\sheezy4.jpeg" />
+    <None Include="Resources\sheezy1.jpeg" />
+    <None Include="Resources\sheezy99.jpeg" />
+    <Content Include="Resources\show.png" />
+    <None Include="Resources\ssl.png" />
+    <Content Include="Resources\team %281%29.png" />
+    <Content Include="Resources\team.png" />
+    <Content Include="Resources\teamwork.png" />
+    <Content Include="Resources\updating.png" />
+    <Content Include="Resources\updating1.png" />
+    <Content Include="Resources\user %281%29.png" />
+    <Content Include="Resources\user %281%291.png" />
+    <Content Include="Resources\user-orange.png" />
+    <Content Include="Resources\user.png" />
+    <None Include="Resources\user1.png" />
+    <Content Include="Resources\user2.png" />
+    <Content Include="Resources\userBlack.png" />
+    <None Include="Resources\userCartIcon.png" />
+    <Content Include="Resources\userOrange.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

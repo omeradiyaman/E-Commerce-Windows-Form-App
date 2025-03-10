@@ -73,7 +73,7 @@ namespace E_Ticaret
                     PictureBox productImage = new PictureBox
                     {
                         Size = new Size(150, 150),
-                        Image = File.Exists(imagePath) ? Image.FromFile(imagePath) : null,
+                        Image = File.Exists(imagePath) ? Image.FromFile(imagePath) : E_Ticaret.Properties.Resources.noImage,
                         SizeMode = PictureBoxSizeMode.Zoom,
                         Dock = DockStyle.Left,
                         Margin = new Padding(5)
@@ -150,7 +150,7 @@ namespace E_Ticaret
         }
         private async Task RemoveWishlistItemAsync(int userId, int productId, Panel productPanel)
         {
-            DialogResult dialogResult = DevExpress.XtraEditors.XtraMessageBox.Show("İstek listesinden silmek istiyor musunuz?", "Onay", DevExpress.XtraEditors.XtraMessageBoxButtons.YesNo, DevExpress.XtraEditors.XtraMessageBoxIcon.Warning, DevExpress.XtraEditors.XtraMessageBoxDefaultButton.Button2);
+            DialogResult dialogResult = DevExpress.XtraEditors.XtraMessageBox.Show("İstek listesinden silmek istiyor musunuz?", "Onay", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2);
 
             if (dialogResult == DialogResult.Yes)
             {
@@ -251,7 +251,6 @@ namespace E_Ticaret
                         await insertCommand.ExecuteNonQueryAsync();
                     }
                 }
-
                 DevExpress.XtraEditors.XtraMessageBox.Show("Ürün sepete eklendi");
             }
             catch (Exception ex)

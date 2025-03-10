@@ -15,6 +15,5 @@ namespace E_Commerce.Domain.Entities
         public decimal UnitPrice { get; set; }
         public Cart Cart { get; set; }
         public Product Product { get; set; }
-
     }
 }
