@@ -90,33 +90,6 @@ namespace E_Commerce.Persistence.Migrations
                     b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("E_Commerce.Domain.Entities.Discount", b =>
-                {
-                    b.Property<int>("DiscountId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DiscountId"));
-
-                    b.Property<float>("DiscountPercentage")
-                        .HasColumnType("real");
-
-                    b.Property<DateTime>("EndDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("StartDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("DiscountId");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("Discounts");
-                });
-
             modelBuilder.Entity("E_Commerce.Domain.Entities.Order", b =>
                 {
                     b.Property<int>("OrderId")
@@ -180,38 +153,6 @@ namespace E_Commerce.Persistence.Migrations
                     b.HasIndex("ProductId1");
 
                     b.ToTable("OrderItems");
-                });
-
-            modelBuilder.Entity("E_Commerce.Domain.Entities.Payment", b =>
-                {
-                    b.Property<int>("PaymentId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PaymentId"));
-
-                    b.Property<decimal>("Amount")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("OrderId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("PaymentDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("PaymentMethod")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("PaymentStatus")
-                        .HasColumnType("int");
-
-                    b.HasKey("PaymentId");
-
-                    b.HasIndex("OrderId")
-                        .IsUnique();
-
-                    b.ToTable("Payment");
                 });
 
             modelBuilder.Entity("E_Commerce.Domain.Entities.Product", b =>
@@ -299,35 +240,6 @@ namespace E_Commerce.Persistence.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Reviews");
-                });
-
-            modelBuilder.Entity("E_Commerce.Domain.Entities.Shipment", b =>
-                {
-                    b.Property<int>("ShipmentId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ShipmentId"));
-
-                    b.Property<int>("OrderId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("ShipmentDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("ShipmentStatus")
-                        .HasColumnType("int");
-
-                    b.Property<string>("TrackingNumber")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("ShipmentId");
-
-                    b.HasIndex("OrderId")
-                        .IsUnique();
-
-                    b.ToTable("Shipments");
                 });
 
             modelBuilder.Entity("E_Commerce.Domain.Entities.User", b =>
@@ -445,17 +357,6 @@ namespace E_Commerce.Persistence.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("E_Commerce.Domain.Entities.Discount", b =>
-                {
-                    b.HasOne("E_Commerce.Domain.Entities.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Product");
-                });
-
             modelBuilder.Entity("E_Commerce.Domain.Entities.Order", b =>
                 {
                     b.HasOne("E_Commerce.Domain.Entities.User", "User")
@@ -476,29 +377,18 @@ namespace E_Commerce.Persistence.Migrations
                         .IsRequired();
 
                     b.HasOne("E_Commerce.Domain.Entities.Product", "Product")
-                        .WithMany("OrderDetails")
+                        .WithMany("OrderItems")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("E_Commerce.Domain.Entities.Product", null)
-                        .WithMany("OrderItems")
+                        .WithMany("OrderDetails")
                         .HasForeignKey("ProductId1");
 
                     b.Navigation("Order");
 
                     b.Navigation("Product");
-                });
-
-            modelBuilder.Entity("E_Commerce.Domain.Entities.Payment", b =>
-                {
-                    b.HasOne("E_Commerce.Domain.Entities.Order", "Order")
-                        .WithOne("Payment")
-                        .HasForeignKey("E_Commerce.Domain.Entities.Payment", "OrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Order");
                 });
 
             modelBuilder.Entity("E_Commerce.Domain.Entities.ProductCategory", b =>
@@ -537,17 +427,6 @@ namespace E_Commerce.Persistence.Migrations
                     b.Navigation("Product");
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("E_Commerce.Domain.Entities.Shipment", b =>
-                {
-                    b.HasOne("E_Commerce.Domain.Entities.Order", "Order")
-                        .WithOne("Shipment")
-                        .HasForeignKey("E_Commerce.Domain.Entities.Shipment", "OrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Order");
                 });
 
             modelBuilder.Entity("E_Commerce.Domain.Entities.Wishlist", b =>
@@ -593,12 +472,6 @@ namespace E_Commerce.Persistence.Migrations
             modelBuilder.Entity("E_Commerce.Domain.Entities.Order", b =>
                 {
                     b.Navigation("OrderItems");
-
-                    b.Navigation("Payment")
-                        .IsRequired();
-
-                    b.Navigation("Shipment")
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("E_Commerce.Domain.Entities.Product", b =>

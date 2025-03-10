@@ -1,0 +1,28 @@
+Order kýsmýnda ya her kiþiye bir bakiye ya da her kiþiye bir kart tanýmlayacaðýz quantity'e göre satýþ yapacak+
+Sipariþi Onaylaya basýnca OrderForm' a parametreleri geçecek+
+
+ARAMA ÇUBUÐU! -
+
+MailKit Þifremi Unuttum +
+
+regexi registera ve admin logine de ekle +
+
+PROFÝL KISMINA ADRES EKLEME YERÝ + 
+
+ProductAddForm da importlu ürünü yüklemeye çalýþýrken problem oluyor update kýsmý daha saðlýklý +
+
+Admin ise sipariþi onaylayacak ya da Enum' dan gelen veriyi 1 arttýrýcak bu kiþinin profiline gidecek. Burada Admin ile User' ý da iliþkili yapmam gerekiyor belki User' a IsAdmin tarafý eklerim? +
+
+USER UPDATE PANEL +
+
+
+EÐER KULLANICININ KARTI YOKSA SÝPARÝÞ EDEMEZ ONUN YERÝNE CREDITCARD KISMINA GÝDER KREDÝ KARTINI GÝRDÝKTEN SONRA SÝPARÝÞÝ ONAYLAYABÝLÝR+
+
+MAÝLKÝT+
+
+VERÝLER EKLENECEK
+
+ÇIKIÞ VE GERÝ GELME+
+
+REGÝSTER KISMINDA TEL NO KAYITLI ÝSE BU TEL NO ADIMIZA KAYITLIDIR DÝYÝP KAYIT ETME! MAÝL FARKLI OLSADA
+

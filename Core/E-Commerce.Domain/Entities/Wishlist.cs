@@ -12,6 +12,5 @@ namespace E_Commerce.Domain.Entities
         public int UserId { get; set; }
         public User User { get; set; }
         public List<WishlistItem> WhislistItems { get; set; }
-
     }
 }

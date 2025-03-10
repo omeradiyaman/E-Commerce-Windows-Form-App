@@ -16,8 +16,6 @@ namespace E_Commerce.Domain.Entities
         public OrderStatus OrderState { get; set; }
         public string ShippingAddress { get; set; }
         public decimal Amount { get; set; }
-        public Payment Payment { get; set; }
-        public Shipment Shipment { get; set; }
         public List<OrderItem> OrderItems { get; set; }
     }
 }
