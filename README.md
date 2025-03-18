@@ -64,12 +64,12 @@ This project is an **e-commerce application** developed using **C# Windows Forms
 ![Ekran görüntüsü 2025-03-18 123039](https://github.com/user-attachments/assets/dd254816-0492-4fd6-a875-d9c957c8d434)
 ![Ekran görüntüsü 2025-03-18 122516](https://github.com/user-attachments/assets/016ca22b-431c-4c37-b6e0-5e7e3bc1313f)
 
-**REGISTER
+#REGISTER
 ![Ekran görüntüsü 2025-03-18 121947](https://github.com/user-attachments/assets/401b197c-3c8c-47d6-8539-d7d68c88fd5e)
 ![Ekran görüntüsü 2025-03-18 122537](https://github.com/user-attachments/assets/8de50e8b-7df7-46ba-9632-4115c26bfd61)
 ![Ekran görüntüsü 2025-03-18 122615](https://github.com/user-attachments/assets/a5a92f79-bb82-4ca3-8860-b0cfb83e713c)
 
-**ADMIN
+#ADMIN
 ![Ekran görüntüsü 2025-03-18 122756](https://github.com/user-attachments/assets/eacd4a54-8192-4d6b-a0e6-dced34899d3c)
 ![Ekran görüntüsü 2025-03-18 122815](https://github.com/user-attachments/assets/ea6e5dce-39c3-4f6c-bfc5-dee32ad13719)
 ![Ekran görüntüsü 2025-03-18 122822](https://github.com/user-attachments/assets/56f0496f-41d2-45f4-8268-b2fb2315df06)
@@ -80,7 +80,7 @@ This project is an **e-commerce application** developed using **C# Windows Forms
 ![Ekran görüntüsü 2025-03-18 122937](https://github.com/user-attachments/assets/d86c5000-4631-4f6f-831b-5ac3874cc3e4)
 
 
-**RELATIONS
+#RELATIONS
 ![Ekran görüntüsü 2025-03-18 122354](https://github.com/user-attachments/assets/1c1172cb-2f63-4b11-885f-b2f037b20a3e)
 
 
