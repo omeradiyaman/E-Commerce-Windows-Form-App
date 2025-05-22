@@ -48,6 +48,7 @@ namespace E_Ticaret
                 {
                     query += " AND (p.Name LIKE @Filter OR p.Description LIKE @Filter)";
                 }
+                query += " ORDER BY WishlistItemId DESC";
                 SqlCommand command = new SqlCommand(query, connection);
                 command.Parameters.AddWithValue("@UserId", userId);
                 command.Parameters.AddWithValue("@Filter", "%" + filter + "%");
@@ -418,6 +419,11 @@ namespace E_Ticaret
         private async void txtFilter_TextChanged(object sender, EventArgs e)
         {
             await LoadWishlistAsync(UserId, txtFilter.Text);
+        }
+
+        private void labelControl2_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

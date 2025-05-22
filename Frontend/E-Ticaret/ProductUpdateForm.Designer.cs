@@ -114,13 +114,13 @@
             // 
             // pictureBoxBanner
             // 
-            this.pictureBoxBanner.Image = global::E_Ticaret.Properties.Resources.improve;
             this.pictureBoxBanner.Location = new System.Drawing.Point(180, 43);
             this.pictureBoxBanner.Name = "pictureBoxBanner";
             this.pictureBoxBanner.Size = new System.Drawing.Size(225, 142);
-            this.pictureBoxBanner.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBoxBanner.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBoxBanner.TabIndex = 3;
             this.pictureBoxBanner.TabStop = false;
+            this.pictureBoxBanner.Click += new System.EventHandler(this.pictureBoxBanner_Click);
             // 
             // label6
             // 

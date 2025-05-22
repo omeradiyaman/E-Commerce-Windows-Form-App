@@ -53,6 +53,7 @@ namespace E_Ticaret
                                 u.Address AS 'Adres', 
                                 oi.ProductId AS 'Ürün Id',
                                 p.Name as 'Ürün Adı',
+                                p.ImageUrl as 'Resim',
                                 oi.Quantity as 'Adet',
                                 oi.UnitPrice as 'Adet Fiyatı',
                                 o.Amount as 'Toplam',
@@ -60,11 +61,12 @@ namespace E_Ticaret
                                 o.OrderStatus AS 'Sipariş Durumu'
                             FROM Users u INNER JOIN Orders o ON o.UserId = u.UserId
                             INNER JOIN OrderItems oi ON o.OrderId = oi.OrderId
-                            INNER JOIN Products p ON oi.ProductId = p.ProductId";
+                            INNER JOIN Products p ON oi.ProductId = p.ProductId ";
             if (!string.IsNullOrEmpty(filter))
             {
-                query += " WHERE (u.Name LIKE @Filter OR u.Surname LIKE @Filter OR p.Name LIKE @Filter)";
+                query += " WHERE (u.Name LIKE @Filter OR u.Surname LIKE @Filter OR p.Name LIKE @Filter) ";
             }
+            query += " ORDER BY o.OrderDate DESC";
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 try
@@ -78,6 +80,7 @@ namespace E_Ticaret
                     try
                     {
                         adapter.Fill(dataTable);
+
                     }
                     catch (Exception ex)
                     {

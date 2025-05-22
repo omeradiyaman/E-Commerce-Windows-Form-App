@@ -34,22 +34,22 @@
             this.panelCategoryBackground = new System.Windows.Forms.Panel();
             this.dataGridProduct = new System.Windows.Forms.DataGridView();
             this.panelCategoryTopBar = new System.Windows.Forms.Panel();
+            this.txtFilter = new System.Windows.Forms.TextBox();
+            this.filterBox = new System.Windows.Forms.PictureBox();
+            this.pictureBoxBack = new System.Windows.Forms.PictureBox();
             this.pictureDeleteProduct = new DevExpress.XtraEditors.PictureEdit();
             this.pictureUpdateProduct = new DevExpress.XtraEditors.PictureEdit();
             this.pictureAddProduct = new DevExpress.XtraEditors.PictureEdit();
             this.productList = new DevExpress.XtraEditors.PictureEdit();
-            this.pictureBoxBack = new System.Windows.Forms.PictureBox();
-            this.filterBox = new System.Windows.Forms.PictureBox();
-            this.txtFilter = new System.Windows.Forms.TextBox();
             this.panelCategoryBackground.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridProduct)).BeginInit();
             this.panelCategoryTopBar.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.filterBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxBack)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureDeleteProduct.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureUpdateProduct.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureAddProduct.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.productList.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxBack)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.filterBox)).BeginInit();
             this.SuspendLayout();
             // 
             // panelCategoryBackground
@@ -125,6 +125,44 @@
             this.panelCategoryTopBar.Size = new System.Drawing.Size(1583, 268);
             this.panelCategoryTopBar.TabIndex = 0;
             // 
+            // txtFilter
+            // 
+            this.txtFilter.BackColor = System.Drawing.Color.LightGray;
+            this.txtFilter.Font = new System.Drawing.Font("Tahoma", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.txtFilter.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(38)))), ((int)(((byte)(38)))));
+            this.txtFilter.Location = new System.Drawing.Point(572, 31);
+            this.txtFilter.Name = "txtFilter";
+            this.txtFilter.Size = new System.Drawing.Size(769, 38);
+            this.txtFilter.TabIndex = 102;
+            this.txtFilter.TextChanged += new System.EventHandler(this.txtFilter_TextChanged);
+            // 
+            // filterBox
+            // 
+            this.filterBox.BackColor = System.Drawing.Color.LightGray;
+            this.filterBox.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.filterBox.ErrorImage = ((System.Drawing.Image)(resources.GetObject("filterBox.ErrorImage")));
+            this.filterBox.Image = global::E_Ticaret.Properties.Resources.search;
+            this.filterBox.Location = new System.Drawing.Point(1300, 34);
+            this.filterBox.Name = "filterBox";
+            this.filterBox.Size = new System.Drawing.Size(31, 33);
+            this.filterBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.filterBox.TabIndex = 101;
+            this.filterBox.TabStop = false;
+            // 
+            // pictureBoxBack
+            // 
+            this.pictureBoxBack.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.pictureBoxBack.Image = global::E_Ticaret.Properties.Resources.arrowBackBlack;
+            this.pictureBoxBack.Location = new System.Drawing.Point(12, 12);
+            this.pictureBoxBack.Name = "pictureBoxBack";
+            this.pictureBoxBack.Size = new System.Drawing.Size(59, 57);
+            this.pictureBoxBack.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBoxBack.TabIndex = 20;
+            this.pictureBoxBack.TabStop = false;
+            this.pictureBoxBack.Click += new System.EventHandler(this.pictureBoxBack_Click);
+            this.pictureBoxBack.MouseEnter += new System.EventHandler(this.pictureBoxBack_MouseEnter);
+            this.pictureBoxBack.MouseLeave += new System.EventHandler(this.pictureBoxBack_MouseLeave);
+            // 
             // pictureDeleteProduct
             // 
             this.pictureDeleteProduct.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -187,44 +225,6 @@
             this.productList.TabIndex = 1;
             this.productList.Click += new System.EventHandler(this.productList_Click);
             // 
-            // pictureBoxBack
-            // 
-            this.pictureBoxBack.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pictureBoxBack.Image = global::E_Ticaret.Properties.Resources.arrowBackBlack;
-            this.pictureBoxBack.Location = new System.Drawing.Point(12, 12);
-            this.pictureBoxBack.Name = "pictureBoxBack";
-            this.pictureBoxBack.Size = new System.Drawing.Size(59, 57);
-            this.pictureBoxBack.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBoxBack.TabIndex = 20;
-            this.pictureBoxBack.TabStop = false;
-            this.pictureBoxBack.Click += new System.EventHandler(this.pictureBoxBack_Click);
-            this.pictureBoxBack.MouseEnter += new System.EventHandler(this.pictureBoxBack_MouseEnter);
-            this.pictureBoxBack.MouseLeave += new System.EventHandler(this.pictureBoxBack_MouseLeave);
-            // 
-            // filterBox
-            // 
-            this.filterBox.BackColor = System.Drawing.Color.LightGray;
-            this.filterBox.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.filterBox.ErrorImage = ((System.Drawing.Image)(resources.GetObject("filterBox.ErrorImage")));
-            this.filterBox.Image = global::E_Ticaret.Properties.Resources.search;
-            this.filterBox.Location = new System.Drawing.Point(1300, 34);
-            this.filterBox.Name = "filterBox";
-            this.filterBox.Size = new System.Drawing.Size(31, 33);
-            this.filterBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.filterBox.TabIndex = 101;
-            this.filterBox.TabStop = false;
-            // 
-            // txtFilter
-            // 
-            this.txtFilter.BackColor = System.Drawing.Color.LightGray;
-            this.txtFilter.Font = new System.Drawing.Font("Tahoma", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.txtFilter.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(38)))), ((int)(((byte)(38)))));
-            this.txtFilter.Location = new System.Drawing.Point(572, 31);
-            this.txtFilter.Name = "txtFilter";
-            this.txtFilter.Size = new System.Drawing.Size(769, 38);
-            this.txtFilter.TabIndex = 102;
-            this.txtFilter.TextChanged += new System.EventHandler(this.txtFilter_TextChanged);
-            // 
             // ProductForm
             // 
             this.Appearance.BackColor = System.Drawing.Color.DimGray;
@@ -250,12 +250,12 @@
             this.panelCategoryBackground.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridProduct)).EndInit();
             this.panelCategoryTopBar.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.filterBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxBack)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureDeleteProduct.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureUpdateProduct.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureAddProduct.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.productList.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxBack)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.filterBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

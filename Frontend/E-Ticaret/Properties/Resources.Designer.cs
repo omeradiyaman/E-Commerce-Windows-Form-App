@@ -323,6 +323,16 @@ namespace E_Ticaret.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap default_product_image {
+            get {
+                object obj = ResourceManager.GetObject("default_product_image", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap delivery {
             get {
                 object obj = ResourceManager.GetObject("delivery", resourceCulture);
@@ -346,6 +356,46 @@ namespace E_Ticaret.Properties {
         internal static System.Drawing.Bitmap delivery_box1 {
             get {
                 object obj = ResourceManager.GetObject("delivery-box1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Ekran_görüntüsü_2025_05_22_172859 {
+            get {
+                object obj = ResourceManager.GetObject("Ekran görüntüsü 2025-05-22 172859", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Ekran_görüntüsü_2025_05_22_1728591 {
+            get {
+                object obj = ResourceManager.GetObject("Ekran görüntüsü 2025-05-22 1728591", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Ekran_görüntüsü_2025_05_22_173204 {
+            get {
+                object obj = ResourceManager.GetObject("Ekran görüntüsü 2025-05-22 173204", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Ekran_görüntüsü_2025_05_22_173331 {
+            get {
+                object obj = ResourceManager.GetObject("Ekran görüntüsü 2025-05-22 173331", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -23,6 +23,7 @@ namespace E_Ticaret
 
         private async void ProductForm_Load(object sender, EventArgs e)
         {
+            dataGridProduct.RowTemplate.Height = 60;
             dataGridProduct.ColumnHeadersDefaultCellStyle.BackColor = Color.White; dataGridProduct.ColumnHeadersDefaultCellStyle.SelectionBackColor = Color.White;
             dataGridProduct.ColumnHeadersDefaultCellStyle.ForeColor = Color.Black;
             dataGridProduct.ColumnHeadersDefaultCellStyle.SelectionForeColor = Color.Black;
@@ -47,25 +48,26 @@ namespace E_Ticaret
 
             await LoadProducts();
         }
-        public async Task LoadProducts(string filter = "")
+        private async Task LoadProducts(string filter = "")
         {
             string query = @"
-                            SELECT 
-                                p.ProductId as 'Ürün ID',
-                                p.Name AS 'Ürün Adı', 
-                                p.Description AS 'Açıklama', 
-                                p.Price AS 'Fiyat',
-                                p.ImageUrl AS 'Resim URL', 
-                                p.Stock AS 'Stok',       
-                                c.CategoryId as 'Kategori Id',
-                                c.CategoryName AS 'Kategori Adı'
-                            FROM Products p
-                            INNER JOIN Categories c ON p.CategoryId = c.CategoryId";
+                SELECT 
+                    p.ProductId as 'Ürün ID',
+                    p.Name AS 'Ürün Adı', 
+                    p.Description AS 'Açıklama', 
+                    p.Price AS 'Fiyat',
+                    p.ImageUrl AS 'Resim URL', 
+                    p.Stock AS 'Stok',       
+                    c.CategoryId as 'Kategori Id',
+                    c.CategoryName AS 'Kategori Adı'
+                FROM Products p
+                INNER JOIN Categories c ON p.CategoryId = c.CategoryId";
+
             if (!string.IsNullOrEmpty(filter))
             {
                 query += " WHERE p.Name LIKE @Filter OR c.CategoryName LIKE @Filter OR p.Description LIKE @Filter";
             }
-
+            query += " ORDER BY p.ProductId DESC";
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 try
@@ -76,35 +78,132 @@ namespace E_Ticaret
                     adapter.SelectCommand.Parameters.AddWithValue("@Filter", "%" + filter + "%");
 
                     DataTable dataTable = new DataTable();
-                    try
+                    adapter.Fill(dataTable);
+
+                    // DataGridView'i temizle ve sütunları yeniden oluştur
+                    dataGridProduct.DataSource = null;
+                    dataGridProduct.Columns.Clear();
+
+                    // Önce normal sütunları ekle
+                    dataGridProduct.DataSource = dataTable;
+
+                    // Resim sütununu ekle
+                    DataGridViewImageColumn imageColumn = new DataGridViewImageColumn();
+                    imageColumn.Name = "Resim";
+                    imageColumn.HeaderText = "Resim";
+                    imageColumn.ImageLayout = DataGridViewImageCellLayout.Zoom;
+                    imageColumn.DefaultCellStyle.NullValue = Properties.Resources.default_product_image;
+
+                    // Resim sütununu en başa ekle
+                    dataGridProduct.Columns.Insert(0, imageColumn);
+
+                    // Diğer sütun ayarları
+                    dataGridProduct.Columns["Ürün ID"].Visible = false;
+                    dataGridProduct.Columns["Kategori Id"].Visible = false;
+                    dataGridProduct.Columns["Resim URL"].Visible = false;
+                    dataGridProduct.RowHeadersVisible = false;
+
+                    // Resimleri yükle
+                    foreach (DataGridViewRow row in dataGridProduct.Rows)
                     {
-                        adapter.Fill(dataTable);
-                    }
-                    catch (Exception ex)
-                    {
-                        DevExpress.XtraEditors.XtraMessageBox.Show("Veri çekme sırasında hata oluştu: " + ex.Message, "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        return;
+                        string imageUrl = row.Cells["Resim URL"].Value?.ToString();
+                        if (!string.IsNullOrEmpty(imageUrl))
+                        {
+                            try
+                            {
+                                string imagePath = Path.Combine(Application.StartupPath, "images", imageUrl);
+                                if (File.Exists(imagePath))
+                                {
+                                    using (FileStream stream = new FileStream(imagePath, FileMode.Open, FileAccess.Read))
+                                    {
+                                        Image img = Image.FromStream(stream);
+                                        row.Cells["Resim"].Value = img;
+                                    }
+                                }
+                            }
+                            catch
+                            {
+                                row.Cells["Resim"].Value = Properties.Resources.default_product_image;
+                            }
+                        }
+                        else
+                        {
+                            row.Cells["Resim"].Value = Properties.Resources.default_product_image;
+                        }
                     }
 
-                    dataGridProduct.DataSource = dataTable;
-                    dataGridProduct.Columns[0].Visible = false;
-                    dataGridProduct.Columns[6].Visible = false;
-                    dataGridProduct.RowHeadersVisible = false;
-                }
-                catch (SqlException sqlEx)
-                {
-                    DevExpress.XtraEditors.XtraMessageBox.Show("Veritabanı hatası: " + sqlEx.Message, "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                catch (InvalidOperationException invOpEx)
-                {
-                    DevExpress.XtraEditors.XtraMessageBox.Show("Bağlantı hatası: " + invOpEx.Message, "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    // Sütun sıralamasını ayarla (Resim en başta olacak şekilde)
+                    dataGridProduct.Columns["Resim"].DisplayIndex = 0;
+                    dataGridProduct.Columns["Ürün Adı"].DisplayIndex = 1;
+                    dataGridProduct.Columns["Açıklama"].DisplayIndex = 2;
+                    dataGridProduct.Columns["Fiyat"].DisplayIndex = 3;
+                    dataGridProduct.Columns["Stok"].DisplayIndex = 4;
+                    dataGridProduct.Columns["Kategori Adı"].DisplayIndex = 5;
                 }
                 catch (Exception ex)
                 {
-                    DevExpress.XtraEditors.XtraMessageBox.Show("Bilinmeyen bir hata oluştu: " + ex.Message, "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    DevExpress.XtraEditors.XtraMessageBox.Show("Hata: " + ex.Message, "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
+        //public async Task LoadProducts(string filter = "")
+        //{
+        //    string query = @"
+        //                    SELECT 
+        //                        p.ProductId as 'Ürün ID',
+        //                        p.Name AS 'Ürün Adı', 
+        //                        p.Description AS 'Açıklama', 
+        //                        p.Price AS 'Fiyat',
+        //                        p.ImageUrl AS 'Resim URL', 
+        //                        p.Stock AS 'Stok',       
+        //                        c.CategoryId as 'Kategori Id',
+        //                        c.CategoryName AS 'Kategori Adı'
+        //                    FROM Products p
+        //                    INNER JOIN Categories c ON p.CategoryId = c.CategoryId";
+        //    if (!string.IsNullOrEmpty(filter))
+        //    {
+        //        query += " WHERE p.Name LIKE @Filter OR c.CategoryName LIKE @Filter OR p.Description LIKE @Filter";
+        //    }
+
+        //    using (SqlConnection connection = new SqlConnection(connectionString))
+        //    {
+        //        try
+        //        {
+        //            await connection.OpenAsync();
+
+        //            SqlDataAdapter adapter = new SqlDataAdapter(query, connection);
+        //            adapter.SelectCommand.Parameters.AddWithValue("@Filter", "%" + filter + "%");
+
+        //            DataTable dataTable = new DataTable();
+        //            try
+        //            {
+        //                adapter.Fill(dataTable);
+        //            }
+        //            catch (Exception ex)
+        //            {
+        //                DevExpress.XtraEditors.XtraMessageBox.Show("Veri çekme sırasında hata oluştu: " + ex.Message, "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        //                return;
+        //            }
+
+        //            dataGridProduct.DataSource = dataTable;
+        //            dataGridProduct.Columns[0].Visible = false;
+        //            dataGridProduct.Columns[6].Visible = false;
+        //            dataGridProduct.RowHeadersVisible = false;
+        //        }
+        //        catch (SqlException sqlEx)
+        //        {
+        //            DevExpress.XtraEditors.XtraMessageBox.Show("Veritabanı hatası: " + sqlEx.Message, "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        //        }
+        //        catch (InvalidOperationException invOpEx)
+        //        {
+        //            DevExpress.XtraEditors.XtraMessageBox.Show("Bağlantı hatası: " + invOpEx.Message, "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            DevExpress.XtraEditors.XtraMessageBox.Show("Bilinmeyen bir hata oluştu: " + ex.Message, "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        //        }
+        //    }
+        //}
         //CRUD
         private async void productList_Click(object sender, EventArgs e)
         {
@@ -116,6 +215,7 @@ namespace E_Ticaret
             productAddForm.ShowDialog();
             await LoadProducts();
         }
+
         private async void pictureUpdateProduct_Click(object sender, EventArgs e)
         {
             if (dataGridProduct.SelectedCells.Count > 0)

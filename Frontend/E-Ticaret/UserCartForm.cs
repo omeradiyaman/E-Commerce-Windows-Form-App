@@ -49,12 +49,13 @@ namespace E_Ticaret
                                 INNER JOIN 
                                     Carts c ON ci.CartId = c.CartId
                                 WHERE 
-                                    c.UserId = @UserId AND 1 = 1";
+                                    c.UserId = @UserId AND 1 = 1 
+                                ";
                 if (!string.IsNullOrEmpty(filter))
                 {
                     query += " AND (p.Name LIKE @Filter OR p.Description LIKE @Filter)";
                 }
-
+                query += " ORDER BY ci.CartItemId DESC";
                 SqlCommand command = new SqlCommand(query, connection);
                 command.Parameters.AddWithValue("@UserId", userId);
 

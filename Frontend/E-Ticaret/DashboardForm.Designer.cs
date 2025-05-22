@@ -38,6 +38,9 @@
             this.lblCategories = new System.Windows.Forms.Label();
             this.labelControl1 = new DevExpress.XtraEditors.LabelControl();
             this.labelControl2 = new DevExpress.XtraEditors.LabelControl();
+            this.btnMostAddedToWishlists = new System.Windows.Forms.Button();
+            this.btnShowMostAddedToCart = new System.Windows.Forms.Button();
+            this.btnShowFeaturedProducts = new System.Windows.Forms.Button();
             this.pbExit = new System.Windows.Forms.PictureBox();
             this.pbCart = new System.Windows.Forms.PictureBox();
             this.pbSheezyDashboard = new System.Windows.Forms.PictureBox();
@@ -179,7 +182,58 @@
             this.labelControl2.Name = "labelControl2";
             this.labelControl2.Size = new System.Drawing.Size(255, 24);
             this.labelControl2.TabIndex = 102;
-            this.labelControl2.Text = "© 2024 Tüm Hakları Saklıdır";
+            this.labelControl2.Text = "© 2025 Tüm Hakları Saklıdır";
+            // 
+            // btnMostAddedToWishlists
+            // 
+            this.btnMostAddedToWishlists.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.btnMostAddedToWishlists.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnMostAddedToWishlists.FlatAppearance.BorderColor = System.Drawing.Color.WhiteSmoke;
+            this.btnMostAddedToWishlists.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.btnMostAddedToWishlists.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnMostAddedToWishlists.Font = new System.Drawing.Font("Tahoma", 14F);
+            this.btnMostAddedToWishlists.ForeColor = System.Drawing.Color.Black;
+            this.btnMostAddedToWishlists.Image = global::E_Ticaret.Properties.Resources.Ekran_görüntüsü_2025_05_22_173204;
+            this.btnMostAddedToWishlists.Location = new System.Drawing.Point(1300, 165);
+            this.btnMostAddedToWishlists.Name = "btnMostAddedToWishlists";
+            this.btnMostAddedToWishlists.Size = new System.Drawing.Size(361, 43);
+            this.btnMostAddedToWishlists.TabIndex = 106;
+            this.btnMostAddedToWishlists.UseVisualStyleBackColor = false;
+            this.btnMostAddedToWishlists.Click += new System.EventHandler(this.btnMostAddedToWishlists_Click);
+            // 
+            // btnShowMostAddedToCart
+            // 
+            this.btnShowMostAddedToCart.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.btnShowMostAddedToCart.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnShowMostAddedToCart.FlatAppearance.BorderColor = System.Drawing.Color.WhiteSmoke;
+            this.btnShowMostAddedToCart.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.btnShowMostAddedToCart.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnShowMostAddedToCart.Font = new System.Drawing.Font("Tahoma", 14F);
+            this.btnShowMostAddedToCart.ForeColor = System.Drawing.Color.Black;
+            this.btnShowMostAddedToCart.Image = global::E_Ticaret.Properties.Resources.Ekran_görüntüsü_2025_05_22_1728591;
+            this.btnShowMostAddedToCart.Location = new System.Drawing.Point(883, 165);
+            this.btnShowMostAddedToCart.Name = "btnShowMostAddedToCart";
+            this.btnShowMostAddedToCart.Size = new System.Drawing.Size(361, 43);
+            this.btnShowMostAddedToCart.TabIndex = 105;
+            this.btnShowMostAddedToCart.UseVisualStyleBackColor = false;
+            this.btnShowMostAddedToCart.Click += new System.EventHandler(this.btnShowMostAddedToCart_Click);
+            // 
+            // btnShowFeaturedProducts
+            // 
+            this.btnShowFeaturedProducts.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.btnShowFeaturedProducts.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnShowFeaturedProducts.FlatAppearance.BorderColor = System.Drawing.Color.WhiteSmoke;
+            this.btnShowFeaturedProducts.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.btnShowFeaturedProducts.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnShowFeaturedProducts.Font = new System.Drawing.Font("Tahoma", 14F);
+            this.btnShowFeaturedProducts.ForeColor = System.Drawing.Color.Black;
+            this.btnShowFeaturedProducts.Image = global::E_Ticaret.Properties.Resources.Ekran_görüntüsü_2025_05_22_173331;
+            this.btnShowFeaturedProducts.Location = new System.Drawing.Point(470, 165);
+            this.btnShowFeaturedProducts.Name = "btnShowFeaturedProducts";
+            this.btnShowFeaturedProducts.Size = new System.Drawing.Size(361, 43);
+            this.btnShowFeaturedProducts.TabIndex = 104;
+            this.btnShowFeaturedProducts.UseVisualStyleBackColor = false;
+            this.btnShowFeaturedProducts.Click += new System.EventHandler(this.btnShowFeaturedProducts_Click);
             // 
             // pbExit
             // 
@@ -271,6 +325,9 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1918, 1062);
+            this.Controls.Add(this.btnMostAddedToWishlists);
+            this.Controls.Add(this.btnShowMostAddedToCart);
+            this.Controls.Add(this.btnShowFeaturedProducts);
             this.Controls.Add(this.pbExit);
             this.Controls.Add(this.pbCart);
             this.Controls.Add(this.labelControl2);
@@ -323,5 +380,8 @@
         private DevExpress.XtraEditors.LabelControl labelControl1;
         private DevExpress.XtraEditors.LabelControl labelControl2;
         private System.Windows.Forms.PictureBox pbExit;
+        private System.Windows.Forms.Button btnShowFeaturedProducts;
+        private System.Windows.Forms.Button btnShowMostAddedToCart;
+        private System.Windows.Forms.Button btnMostAddedToWishlists;
     }
 }

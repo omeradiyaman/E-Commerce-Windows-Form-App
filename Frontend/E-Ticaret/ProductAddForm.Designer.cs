@@ -72,6 +72,7 @@
             this.panelCategoryAdd.Name = "panelCategoryAdd";
             this.panelCategoryAdd.Size = new System.Drawing.Size(603, 855);
             this.panelCategoryAdd.TabIndex = 1;
+            this.panelCategoryAdd.Paint += new System.Windows.Forms.PaintEventHandler(this.panelCategoryAdd_Paint);
             // 
             // pictureBoxBack
             // 

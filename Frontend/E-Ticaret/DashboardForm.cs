@@ -28,12 +28,12 @@ namespace E_Ticaret
             InitializeComponent();
             InitializePlaceholder();
             UserId = userId;
-            if (!isWelcomeMessageShown)
-            {
-                isWelcomeMessageShown = true;
-                WelcomeForm form = new WelcomeForm();
-                form.ShowDialog();
-            }
+            //if (!isWelcomeMessageShown)
+            //{
+            //    isWelcomeMessageShown = true;
+            //    WelcomeForm form = new WelcomeForm();
+            //    form.ShowDialog();
+            //}
         }
         public DashboardForm()
         {
@@ -118,6 +118,8 @@ namespace E_Ticaret
                 {
                     query += " AND (Name LIKE @FilterText OR Description LIKE @FilterText)";
                 }
+                query += " ORDER BY ProductId DESC";
+
                 SqlCommand command = new SqlCommand(query, connection);
                 if (!string.IsNullOrEmpty(categoryId))
                 {
@@ -251,6 +253,612 @@ namespace E_Ticaret
                 await LoadProductsAsync();
             }
         }
+        private async Task LoadFeaturedProductsAsync(string filterText = null)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                await connection.OpenAsync();
+
+                string query = @"
+                                SELECT TOP 30 
+                                    ProductId, Name, Description, Price, ImageUrl 
+                                FROM 
+                                    Products 
+                                WHERE 
+                                    Price BETWEEN 500 AND 20000
+                                    AND Stock > 0";
+
+                if (!string.IsNullOrEmpty(filterText))
+                {
+                    query += " AND (Name LIKE @FilterText OR Description LIKE @FilterText)";
+                }
+
+                query += " ORDER BY Price DESC, ProductId DESC";
+
+                SqlCommand command = new SqlCommand(query, connection);
+
+                if (!string.IsNullOrEmpty(filterText))
+                {
+                    command.Parameters.AddWithValue("@FilterText", "%" + filterText + "%");
+                }
+
+                SqlDataReader reader = await command.ExecuteReaderAsync();
+                flpProducts.Controls.Clear();
+
+                while (await reader.ReadAsync())
+                {
+                    int productId = (int)reader["ProductId"];
+                    string productName = reader["Name"].ToString();
+                    string imagePath = reader["ImageUrl"].ToString();
+                    string price = reader["Price"].ToString();
+                    string description = reader["Description"].ToString();
+
+                    Panel productPanel = new Panel
+                    {
+                        Size = new Size(250, 350),
+                        BorderStyle = BorderStyle.FixedSingle,
+                        Margin = new Padding(10),
+                        BackColor = Color.White,
+                        Padding = new Padding(5)
+                    };
+
+                    PictureBox productImage = new PictureBox
+                    {
+                        Size = new Size(150, 150),
+                        Image = File.Exists(imagePath) ? Image.FromFile(imagePath) : E_Ticaret.Properties.Resources.noImage,
+                        SizeMode = PictureBoxSizeMode.Zoom,
+                        Dock = DockStyle.Top,
+                        Margin = new Padding(0, 0, 0, 5)
+                    };
+
+                    bool isInWishlist = await IsProductInWishlistAsync(UserId, productId);
+
+                    PictureBox favoriteIcon = new PictureBox
+                    {
+                        Size = new Size(30, 30),
+                        Image = isInWishlist ? E_Ticaret.Properties.Resources.favoriteOrangeIcon : E_Ticaret.Properties.Resources.favoriteIcon,
+                        SizeMode = PictureBoxSizeMode.StretchImage,
+                        Location = new Point(productImage.Right + 55, productImage.Top + 10),
+                        Cursor = Cursors.Hand
+                    };
+
+                    favoriteIcon.Click += async (sender, e) =>
+                    {
+                        await InsertOrRemoveWishlistProductAsyncAsync(UserId, productId);
+                        isInWishlist = !isInWishlist;
+                        favoriteIcon.Image = isInWishlist
+                            ? E_Ticaret.Properties.Resources.favoriteOrangeIcon
+                            : E_Ticaret.Properties.Resources.favoriteIcon;
+                    };
+
+                    productPanel.Controls.Add(favoriteIcon);
+
+                    Label nameLabel = new Label
+                    {
+                        Text = productName,
+                        Font = new Font("Arial", 12, FontStyle.Bold),
+                        ForeColor = Color.Black,
+                        TextAlign = ContentAlignment.MiddleCenter,
+                        Dock = DockStyle.Top,
+                        Height = 30
+                    };
+
+                    Label descriptionLabel = new Label
+                    {
+                        Text = description,
+                        Font = new Font("Arial", 10, FontStyle.Regular),
+                        ForeColor = Color.Gray,
+                        TextAlign = ContentAlignment.MiddleCenter,
+                        Dock = DockStyle.Top,
+                        Height = 50,
+                        Padding = new Padding(5)
+                    };
+
+                    Label priceLabel = new Label
+                    {
+                        Text = $"₺ {price}",
+                        Font = new Font("Arial", 14, FontStyle.Bold),
+                        ForeColor = Color.Red,
+                        TextAlign = ContentAlignment.MiddleCenter,
+                        Dock = DockStyle.Top,
+                        Height = 40,
+                        Padding = new Padding(0, 3, 0, 3)
+                    };
+
+                    Button addToCartButton = new Button
+                    {
+                        Text = "Sepete Ekle",
+                        Font = new Font("Arial", 10, FontStyle.Bold),
+                        ForeColor = Color.White,
+                        BackColor = Color.Orange,
+                        FlatStyle = FlatStyle.Flat,
+                        Dock = DockStyle.Bottom,
+                        Height = 50,
+                        Margin = new Padding(5),
+                        Cursor = Cursors.Hand
+                    };
+
+                    addToCartButton.Click += async (sender, e) =>
+                    {
+                        await AddToCartAsync(UserId, productId);
+                    };
+
+                    productPanel.Controls.Add(favoriteIcon);
+                    productPanel.Controls.Add(priceLabel);
+                    productPanel.Controls.Add(descriptionLabel);
+                    productPanel.Controls.Add(nameLabel);
+                    productPanel.Controls.Add(productImage);
+                    productPanel.Controls.Add(addToCartButton);
+
+                    flpProducts.Controls.Add(productPanel);
+                }
+                reader.Close();
+            }
+        }
+
+        private async Task LoadMostAddedToWishlistProductsAsync(string filterText = null)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                await connection.OpenAsync();
+
+                string query = @"
+                                SELECT TOP 30 
+                                p.ProductId, 
+                                p.Name, 
+                                p.Description, 
+                                p.Price, 
+                                p.ImageUrl
+                            FROM 
+                                Products p
+                            INNER JOIN (
+                                SELECT 
+                                    ProductId, 
+                                    COUNT(*) AS FavoriteCount
+                                FROM 
+                                    WishlistItems
+                                GROUP BY 
+                                    ProductId
+                            ) wi ON p.ProductId = wi.ProductId
+                            WHERE 
+                                p.Stock > 0";
+
+                if (!string.IsNullOrEmpty(filterText))
+                {
+                    query += " AND (p.Name LIKE @FilterText OR p.Description LIKE @FilterText)";
+                }
+
+                query += " ORDER BY wi.FavoriteCount DESC, p.ProductId DESC";
+
+                SqlCommand command = new SqlCommand(query, connection);
+
+                if (!string.IsNullOrEmpty(filterText))
+                {
+                    command.Parameters.AddWithValue("@FilterText", "%" + filterText + "%");
+                }
+
+                SqlDataReader reader = await command.ExecuteReaderAsync();
+                flpProducts.Controls.Clear();
+
+                while (await reader.ReadAsync())
+                {
+                    int productId = (int)reader["ProductId"];
+                    string productName = reader["Name"].ToString();
+                    string imagePath = reader["ImageUrl"].ToString();
+                    string price = reader["Price"].ToString();
+                    string description = reader["Description"].ToString();
+
+                    Panel productPanel = new Panel
+                    {
+                        Size = new Size(250, 350),
+                        BorderStyle = BorderStyle.FixedSingle,
+                        Margin = new Padding(10),
+                        BackColor = Color.White,
+                        Padding = new Padding(5)
+                    };
+
+                    PictureBox productImage = new PictureBox
+                    {
+                        Size = new Size(150, 150),
+                        Image = File.Exists(imagePath) ? Image.FromFile(imagePath) : E_Ticaret.Properties.Resources.noImage,
+                        SizeMode = PictureBoxSizeMode.Zoom,
+                        Dock = DockStyle.Top,
+                        Margin = new Padding(0, 0, 0, 5)
+                    };
+
+                    bool isInWishlist = await IsProductInWishlistAsync(UserId, productId);
+
+                    PictureBox favoriteIcon = new PictureBox
+                    {
+                        Size = new Size(30, 30),
+                        Image = isInWishlist ? E_Ticaret.Properties.Resources.favoriteOrangeIcon : E_Ticaret.Properties.Resources.favoriteIcon,
+                        SizeMode = PictureBoxSizeMode.StretchImage,
+                        Location = new Point(productImage.Right + 55, productImage.Top + 10),
+                        Cursor = Cursors.Hand
+                    };
+
+                    favoriteIcon.Click += async (sender, e) =>
+                    {
+                        await InsertOrRemoveWishlistProductAsyncAsync(UserId, productId);
+                        isInWishlist = !isInWishlist;
+                        favoriteIcon.Image = isInWishlist
+                            ? E_Ticaret.Properties.Resources.favoriteOrangeIcon
+                            : E_Ticaret.Properties.Resources.favoriteIcon;
+                    };
+
+                    productPanel.Controls.Add(favoriteIcon);
+
+                    Label nameLabel = new Label
+                    {
+                        Text = productName,
+                        Font = new Font("Arial", 12, FontStyle.Bold),
+                        ForeColor = Color.Black,
+                        TextAlign = ContentAlignment.MiddleCenter,
+                        Dock = DockStyle.Top,
+                        Height = 30
+                    };
+
+                    Label descriptionLabel = new Label
+                    {
+                        Text = description,
+                        Font = new Font("Arial", 10, FontStyle.Regular),
+                        ForeColor = Color.Gray,
+                        TextAlign = ContentAlignment.MiddleCenter,
+                        Dock = DockStyle.Top,
+                        Height = 50,
+                        Padding = new Padding(5)
+                    };
+
+                    Label priceLabel = new Label
+                    {
+                        Text = $"₺ {price}",
+                        Font = new Font("Arial", 14, FontStyle.Bold),
+                        ForeColor = Color.Red,
+                        TextAlign = ContentAlignment.MiddleCenter,
+                        Dock = DockStyle.Top,
+                        Height = 40,
+                        Padding = new Padding(0, 3, 0, 3)
+                    };
+
+                    Button addToCartButton = new Button
+                    {
+                        Text = "Sepete Ekle",
+                        Font = new Font("Arial", 10, FontStyle.Bold),
+                        ForeColor = Color.White,
+                        BackColor = Color.Orange,
+                        FlatStyle = FlatStyle.Flat,
+                        Dock = DockStyle.Bottom,
+                        Height = 50,
+                        Margin = new Padding(5),
+                        Cursor = Cursors.Hand
+                    };
+
+                    addToCartButton.Click += async (sender, e) =>
+                    {
+                        await AddToCartAsync(UserId, productId);
+                    };
+
+                    productPanel.Controls.Add(favoriteIcon);
+                    productPanel.Controls.Add(priceLabel);
+                    productPanel.Controls.Add(descriptionLabel);
+                    productPanel.Controls.Add(nameLabel);
+                    productPanel.Controls.Add(productImage);
+                    productPanel.Controls.Add(addToCartButton);
+
+                    flpProducts.Controls.Add(productPanel);
+                }
+                reader.Close();
+            }
+        }
+        private async Task LoadMostAddedToCartProductsAsync(string filterText = null)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                await connection.OpenAsync();
+
+                string query = @"
+                                SELECT TOP 30 
+                                    p.ProductId, 
+                                    p.Name, 
+                                    p.Description, 
+                                    p.Price, 
+                                    p.ImageUrl
+                                FROM 
+                                    Products p
+                                INNER JOIN (
+                                    SELECT 
+                                        ProductId, 
+                                        COUNT(*) AS CartCount
+                                    FROM 
+                                        CartItems
+                                    GROUP BY 
+                                        ProductId
+                                ) ci ON p.ProductId = ci.ProductId
+                                WHERE 
+                                    p.Stock > 0";
+
+                if (!string.IsNullOrEmpty(filterText))
+                {
+                    query += " AND (p.Name LIKE @FilterText OR p.Description LIKE @FilterText)";
+                }
+
+                query += " ORDER BY ci.CartCount DESC, p.ProductId DESC";
+
+                SqlCommand command = new SqlCommand(query, connection);
+
+                if (!string.IsNullOrEmpty(filterText))
+                {
+                    command.Parameters.AddWithValue("@FilterText", "%" + filterText + "%");
+                }
+
+                SqlDataReader reader = await command.ExecuteReaderAsync();
+                flpProducts.Controls.Clear();
+
+                while (await reader.ReadAsync())
+                {
+                    int productId = (int)reader["ProductId"];
+                    string productName = reader["Name"].ToString();
+                    string imagePath = reader["ImageUrl"].ToString();
+                    string price = reader["Price"].ToString();
+                    string description = reader["Description"].ToString();
+
+                    Panel productPanel = new Panel
+                    {
+                        Size = new Size(250, 350),
+                        BorderStyle = BorderStyle.FixedSingle,
+                        Margin = new Padding(10),
+                        BackColor = Color.White,
+                        Padding = new Padding(5)
+                    };
+
+                    PictureBox productImage = new PictureBox
+                    {
+                        Size = new Size(150, 150),
+                        Image = File.Exists(imagePath) ? Image.FromFile(imagePath) : E_Ticaret.Properties.Resources.noImage,
+                        SizeMode = PictureBoxSizeMode.Zoom,
+                        Dock = DockStyle.Top,
+                        Margin = new Padding(0, 0, 0, 5)
+                    };
+
+                    bool isInWishlist = await IsProductInWishlistAsync(UserId, productId);
+
+                    PictureBox favoriteIcon = new PictureBox
+                    {
+                        Size = new Size(30, 30),
+                        Image = isInWishlist ? E_Ticaret.Properties.Resources.favoriteOrangeIcon : E_Ticaret.Properties.Resources.favoriteIcon,
+                        SizeMode = PictureBoxSizeMode.StretchImage,
+                        Location = new Point(productImage.Right + 55, productImage.Top + 10),
+                        Cursor = Cursors.Hand
+                    };
+
+                    favoriteIcon.Click += async (sender, e) =>
+                    {
+                        await InsertOrRemoveWishlistProductAsyncAsync(UserId, productId);
+                        isInWishlist = !isInWishlist;
+                        favoriteIcon.Image = isInWishlist
+                            ? E_Ticaret.Properties.Resources.favoriteOrangeIcon
+                            : E_Ticaret.Properties.Resources.favoriteIcon;
+                    };
+
+                    productPanel.Controls.Add(favoriteIcon);
+
+                    Label nameLabel = new Label
+                    {
+                        Text = productName,
+                        Font = new Font("Arial", 12, FontStyle.Bold),
+                        ForeColor = Color.Black,
+                        TextAlign = ContentAlignment.MiddleCenter,
+                        Dock = DockStyle.Top,
+                        Height = 30
+                    };
+
+                    Label descriptionLabel = new Label
+                    {
+                        Text = description,
+                        Font = new Font("Arial", 10, FontStyle.Regular),
+                        ForeColor = Color.Gray,
+                        TextAlign = ContentAlignment.MiddleCenter,
+                        Dock = DockStyle.Top,
+                        Height = 50,
+                        Padding = new Padding(5)
+                    };
+
+                    Label priceLabel = new Label
+                    {
+                        Text = $"₺ {price}",
+                        Font = new Font("Arial", 14, FontStyle.Bold),
+                        ForeColor = Color.Red,
+                        TextAlign = ContentAlignment.MiddleCenter,
+                        Dock = DockStyle.Top,
+                        Height = 40,
+                        Padding = new Padding(0, 3, 0, 3)
+                    };
+
+                    Button addToCartButton = new Button
+                    {
+                        Text = "Sepete Ekle",
+                        Font = new Font("Arial", 10, FontStyle.Bold),
+                        ForeColor = Color.White,
+                        BackColor = Color.Orange,
+                        FlatStyle = FlatStyle.Flat,
+                        Dock = DockStyle.Bottom,
+                        Height = 50,
+                        Margin = new Padding(5),
+                        Cursor = Cursors.Hand
+                    };
+
+                    addToCartButton.Click += async (sender, e) =>
+                    {
+                        await AddToCartAsync(UserId, productId);
+                    };
+
+                    productPanel.Controls.Add(favoriteIcon);
+                    productPanel.Controls.Add(priceLabel);
+                    productPanel.Controls.Add(descriptionLabel);
+                    productPanel.Controls.Add(nameLabel);
+                    productPanel.Controls.Add(productImage);
+                    productPanel.Controls.Add(addToCartButton);
+
+                    flpProducts.Controls.Add(productPanel);
+                }
+                reader.Close();
+            }
+        }
+        private async Task LoadMostSoldProductsAsync(string filterText = null)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                await connection.OpenAsync();
+
+                string query = @"
+                                SELECT TOP 30 
+                                p.ProductId, 
+                                p.Name, 
+                                p.Description, 
+                                p.Price, 
+                                p.ImageUrl
+                            FROM 
+                                Products p
+                            INNER JOIN (
+                                SELECT 
+                                    ProductId, 
+                                    COUNT(*) AS SalesCount
+                                FROM 
+                                    OrderItems
+                                GROUP BY 
+                                    ProductId
+                            ) oi ON p.ProductId = oi.ProductId
+                            WHERE 
+                                p.Stock > 0";
+
+                if (!string.IsNullOrEmpty(filterText))
+                {
+                    query += " AND (p.Name LIKE @FilterText OR p.Description LIKE @FilterText)";
+                }
+
+                query += " ORDER BY oi.SalesCount DESC, p.ProductId DESC";
+
+                SqlCommand command = new SqlCommand(query, connection);
+
+                if (!string.IsNullOrEmpty(filterText))
+                {
+                    command.Parameters.AddWithValue("@FilterText", "%" + filterText + "%");
+                }
+
+                SqlDataReader reader = await command.ExecuteReaderAsync();
+                flpProducts.Controls.Clear();
+
+                while (await reader.ReadAsync())
+                {
+                    int productId = (int)reader["ProductId"];
+                    string productName = reader["Name"].ToString();
+                    string imagePath = reader["ImageUrl"].ToString();
+                    string price = reader["Price"].ToString();
+                    string description = reader["Description"].ToString();
+
+                    Panel productPanel = new Panel
+                    {
+                        Size = new Size(250, 350),
+                        BorderStyle = BorderStyle.FixedSingle,
+                        Margin = new Padding(10),
+                        BackColor = Color.White,
+                        Padding = new Padding(5)
+                    };
+
+                    PictureBox productImage = new PictureBox
+                    {
+                        Size = new Size(150, 150),
+                        Image = File.Exists(imagePath) ? Image.FromFile(imagePath) : E_Ticaret.Properties.Resources.noImage,
+                        SizeMode = PictureBoxSizeMode.Zoom,
+                        Dock = DockStyle.Top,
+                        Margin = new Padding(0, 0, 0, 5)
+                    };
+
+                    bool isInWishlist = await IsProductInWishlistAsync(UserId, productId);
+
+                    PictureBox favoriteIcon = new PictureBox
+                    {
+                        Size = new Size(30, 30),
+                        Image = isInWishlist ? E_Ticaret.Properties.Resources.favoriteOrangeIcon : E_Ticaret.Properties.Resources.favoriteIcon,
+                        SizeMode = PictureBoxSizeMode.StretchImage,
+                        Location = new Point(productImage.Right + 55, productImage.Top + 10),
+                        Cursor = Cursors.Hand
+                    };
+
+                    favoriteIcon.Click += async (sender, e) =>
+                    {
+                        await InsertOrRemoveWishlistProductAsyncAsync(UserId, productId);
+                        isInWishlist = !isInWishlist;
+                        favoriteIcon.Image = isInWishlist
+                            ? E_Ticaret.Properties.Resources.favoriteOrangeIcon
+                            : E_Ticaret.Properties.Resources.favoriteIcon;
+                    };
+
+                    productPanel.Controls.Add(favoriteIcon);
+
+                    Label nameLabel = new Label
+                    {
+                        Text = productName,
+                        Font = new Font("Arial", 12, FontStyle.Bold),
+                        ForeColor = Color.Black,
+                        TextAlign = ContentAlignment.MiddleCenter,
+                        Dock = DockStyle.Top,
+                        Height = 30
+                    };
+
+                    Label descriptionLabel = new Label
+                    {
+                        Text = description,
+                        Font = new Font("Arial", 10, FontStyle.Regular),
+                        ForeColor = Color.Gray,
+                        TextAlign = ContentAlignment.MiddleCenter,
+                        Dock = DockStyle.Top,
+                        Height = 50,
+                        Padding = new Padding(5)
+                    };
+
+                    Label priceLabel = new Label
+                    {
+                        Text = $"₺ {price}",
+                        Font = new Font("Arial", 14, FontStyle.Bold),
+                        ForeColor = Color.Red,
+                        TextAlign = ContentAlignment.MiddleCenter,
+                        Dock = DockStyle.Top,
+                        Height = 40,
+                        Padding = new Padding(0, 3, 0, 3)
+                    };
+
+                    Button addToCartButton = new Button
+                    {
+                        Text = "Sepete Ekle",
+                        Font = new Font("Arial", 10, FontStyle.Bold),
+                        ForeColor = Color.White,
+                        BackColor = Color.Orange,
+                        FlatStyle = FlatStyle.Flat,
+                        Dock = DockStyle.Bottom,
+                        Height = 50,
+                        Margin = new Padding(5),
+                        Cursor = Cursors.Hand
+                    };
+
+                    addToCartButton.Click += async (sender, e) =>
+                    {
+                        await AddToCartAsync(UserId, productId);
+                    };
+
+                    productPanel.Controls.Add(favoriteIcon);
+                    productPanel.Controls.Add(priceLabel);
+                    productPanel.Controls.Add(descriptionLabel);
+                    productPanel.Controls.Add(nameLabel);
+                    productPanel.Controls.Add(productImage);
+                    productPanel.Controls.Add(addToCartButton);
+
+                    flpProducts.Controls.Add(productPanel);
+                }
+                reader.Close();
+            }
+        }
+
         private async Task<bool> IsProductInWishlistAsync(int userId, int productId)
         {
             int? wishlistId = await GetWishlistIdByUserIdAsync(userId);
@@ -552,6 +1160,21 @@ namespace E_Ticaret
             UserLoginForm form = new UserLoginForm();
             this.Hide();
             form.ShowDialog();
+        }
+
+        private async void btnShowFeaturedProducts_Click(object sender, EventArgs e)
+        {
+            await LoadMostSoldProductsAsync();
+        }
+
+        private async void btnShowMostAddedToCart_Click(object sender, EventArgs e)
+        {
+            await LoadMostAddedToCartProductsAsync();
+        }
+
+        private async void btnMostAddedToWishlists_Click(object sender, EventArgs e)
+        {
+            await LoadMostAddedToWishlistProductsAsync();
         }
     }
 }

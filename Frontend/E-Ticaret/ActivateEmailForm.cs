@@ -98,5 +98,10 @@ namespace E_Ticaret
         {
             pictureBoxBack.Image = E_Ticaret.Properties.Resources.arrowBackBlue;
         }
+
+        private void txtActivateCode_MaskInputRejected(object sender, MaskInputRejectedEventArgs e)
+        {
+
+        }
     }
 }
