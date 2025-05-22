@@ -55,6 +55,9 @@ namespace E_Ticaret
             {
                 if (CheckUserInDatabase(email, password))
                 {
+                    WelcomeForm welcomeForm = new WelcomeForm();
+                    this.Hide();
+                    welcomeForm.ShowDialog();
                     DashboardForm dashboardForm = new DashboardForm(CurrentUser.UserID, CurrentUser.Name, CurrentUser.Surname);
                     this.Hide();
                     dashboardForm.ShowDialog();

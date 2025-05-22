@@ -203,7 +203,8 @@
             this.labelControl2.Name = "labelControl2";
             this.labelControl2.Size = new System.Drawing.Size(255, 24);
             this.labelControl2.TabIndex = 104;
-            this.labelControl2.Text = "© 2024 Tüm Hakları Saklıdır";
+            this.labelControl2.Text = "© 2025 Tüm Hakları Saklıdır";
+            this.labelControl2.Click += new System.EventHandler(this.labelControl2_Click);
             // 
             // labelControl1
             // 

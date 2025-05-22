@@ -109,6 +109,7 @@
             this.txtActivateCode.Size = new System.Drawing.Size(380, 34);
             this.txtActivateCode.TabIndex = 0;
             this.txtActivateCode.ValidatingType = typeof(int);
+            this.txtActivateCode.MaskInputRejected += new System.Windows.Forms.MaskInputRejectedEventHandler(this.txtActivateCode_MaskInputRejected);
             this.txtActivateCode.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtActivateCode_KeyDown);
             // 
             // pictureBoxBack

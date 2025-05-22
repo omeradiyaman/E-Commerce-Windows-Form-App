@@ -22,7 +22,9 @@ namespace E_Ticaret
         private int _categoryId;
         private string _selectedImagePath;
         private string _resourcePath;
-        public ProductUpdateForm(int productId, string productName, string description, decimal price, string imageUrl, int stock, string categoryName, int categoryId)
+        public ProductUpdateForm(int productId, string productName, string description,
+        decimal price, string imageUrl, int stock,
+        string categoryName, int categoryId)
         {
             InitializeComponent();
 
@@ -34,6 +36,87 @@ namespace E_Ticaret
             txtStock.Text = stock.ToString();
             cmbCategoryName.SelectedValue = categoryName;
             btnImage.Text = imageUrl;
+
+            // PictureBox özelliklerini ayarla
+            pictureBoxBanner.SizeMode = PictureBoxSizeMode.Zoom; // Resmi orantılı büyüt
+            pictureBoxBanner.WaitOnLoad = false; // Büyük resimler için
+            pictureBoxBanner.BorderStyle = BorderStyle.None;
+
+
+            // Resmi yükle ve optimize et
+            LoadAndOptimizeImage(imageUrl);
+        }
+
+        private void LoadAndOptimizeImage(string imageUrl)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(imageUrl))
+                {
+                    pictureBoxBanner.Image = null;
+                    return;
+                }
+
+                Image img = null;
+
+                // Dosya yolu olup olmadığını kontrol et
+                if (File.Exists(imageUrl))
+                {
+                    // Yüksek kalitede resim yükle
+                    using (var bmpTemp = new Bitmap(imageUrl))
+                    {
+                        img = new Bitmap(bmpTemp); // Orijinal boyutta yükle
+                    }
+                }
+                else
+                {
+                    // Base64 string olarak dene
+                    try
+                    {
+                        byte[] imageBytes = Convert.FromBase64String(imageUrl);
+                        using (MemoryStream ms = new MemoryStream(imageBytes))
+                        {
+                            img = Image.FromStream(ms);
+                        }
+                    }
+                    catch
+                    {
+                        img = null;
+                    }
+                }
+
+                if (img != null)
+                {
+                    // Resmi yeniden boyutlandır (isteğe bağlı)
+                    int targetWidth = pictureBoxBanner.Width;
+                    int targetHeight = pictureBoxBanner.Height;
+
+                    // Orjinal en boy oranını koru
+                    double ratio = Math.Min((double)targetWidth / img.Width,
+                                          (double)targetHeight / img.Height);
+                    int newWidth = (int)(img.Width * ratio);
+                    int newHeight = (int)(img.Height * ratio);
+
+                    // Yüksek kaliteli yeniden boyutlandırma
+                    Bitmap newImage = new Bitmap(newWidth, newHeight);
+                    using (Graphics graphics = Graphics.FromImage(newImage))
+                    {
+                        graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+                        graphics.DrawImage(img, 0, 0, newWidth, newHeight);
+                    }
+
+                    pictureBoxBanner.Image = newImage;
+
+                    // Eski resmi temizle
+                    img.Dispose();
+                }
+            }
+            catch (Exception ex)
+            {
+                DevExpress.XtraEditors.XtraMessageBox.Show($"Resim yüklenirken hata oluştu: {ex.Message}",
+                    "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                pictureBoxBanner.Image = null;
+            }
         }
 
         private async Task UpdateProductInDatabase(string name, string description, decimal price, string imageUrl, int stock, int categoryId)
@@ -69,7 +152,6 @@ namespace E_Ticaret
             {
                 using (OpenFileDialog openFileDialog = new OpenFileDialog())
                 {
-
                     openFileDialog.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.bmp;*.gif";
                     openFileDialog.Title = "Bir resim seçin";
 
@@ -77,17 +159,66 @@ namespace E_Ticaret
                     {
                         _selectedImagePath = openFileDialog.FileName;
 
-                        string resourcesPath = Path.Combine("C:\\Users\\mahsu\\source\\repos\\E-Commerce\\Frontend\\E-Ticaret\\Resources", Path.GetFileName(_selectedImagePath));
-                        _resourcePath = resourcesPath;
-                        btnImage.Text = resourcesPath;
+                        // Resmi pictureBoxBanner'a yükle
+                        try
+                        {
+                            // Yüksek kaliteli resim yükleme
+                            using (var tempImage = Image.FromFile(_selectedImagePath))
+                            {
+                                pictureBoxBanner.Image = new Bitmap(tempImage);
+                            }
+
+                            // Resources klasörüne kaydedilecek yol
+                            string resourcesPath = Path.Combine("C:\\Users\\mahsu\\source\\repos\\E-Commerce\\Frontend\\E-Ticaret\\Resources",
+                                             Path.GetFileName(_selectedImagePath));
+                            _resourcePath = resourcesPath;
+                            btnImage.Text = resourcesPath;
+
+                            // PictureBox ayarlarını güncelle
+                            pictureBoxBanner.SizeMode = PictureBoxSizeMode.Zoom;
+                            pictureBoxBanner.BorderStyle = BorderStyle.None;
+                        }
+                        catch (Exception imgEx)
+                        {
+                            DevExpress.XtraEditors.XtraMessageBox.Show($"Resim yüklenirken hata oluştu: {imgEx.Message}",
+                                "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            pictureBoxBanner.Image = null;
+                        }
                     }
                 }
             }
             catch (Exception ex)
             {
-                DevExpress.XtraEditors.XtraMessageBox.Show("Bir hata oluştu: " + ex.Message, "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                DevExpress.XtraEditors.XtraMessageBox.Show("Bir hata oluştu: " + ex.Message,
+                    "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                pictureBoxBanner.Image = null;
             }
         }
+        //private void btnImage_Click(object sender, EventArgs e)
+        //{
+        //    try
+        //    {
+        //        using (OpenFileDialog openFileDialog = new OpenFileDialog())
+        //        {
+
+        //            openFileDialog.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.bmp;*.gif";
+        //            openFileDialog.Title = "Bir resim seçin";
+
+        //            if (openFileDialog.ShowDialog() == DialogResult.OK)
+        //            {
+        //                _selectedImagePath = openFileDialog.FileName;
+
+        //                string resourcesPath = Path.Combine("C:\\Users\\mahsu\\source\\repos\\E-Commerce\\Frontend\\E-Ticaret\\Resources", Path.GetFileName(_selectedImagePath));
+        //                _resourcePath = resourcesPath;
+        //                btnImage.Text = resourcesPath;
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        DevExpress.XtraEditors.XtraMessageBox.Show("Bir hata oluştu: " + ex.Message, "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        //    }
+        //}
         public async Task LoadCategoriesToComboBoxAsync()
         {
             try
@@ -212,6 +343,11 @@ namespace E_Ticaret
         }
 
         private void panelCategoryAdd_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void pictureBoxBanner_Click(object sender, EventArgs e)
         {
 
         }

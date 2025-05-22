@@ -139,6 +139,7 @@ namespace E_Ticaret
                 {
                     query += " AND (p.Name LIKE @Filter OR p.Description LIKE @Filter)";
                 }
+                query += " ORDER BY OrderDate DESC";
                 SqlCommand command = new SqlCommand(query, connection);
                 command.Parameters.AddWithValue("@UserId", userId);
 
@@ -504,7 +505,7 @@ namespace E_Ticaret
                 using (var client = new SmtpClient())
                 {
                     await client.ConnectAsync("smtp.gmail.com", 587, MailKit.Security.SecureSocketOptions.StartTls);
-                    await client.AuthenticateAsync("omeradiyaman1169@gmail.com", "xgxb hibp akew qxcy");
+                    await client.AuthenticateAsync("omeradiyaman1169@gmail.com", "wzws oljy wxvo pads");
                     await client.SendAsync(message);
                     await client.DisconnectAsync(true);
                 }

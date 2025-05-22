@@ -192,5 +192,10 @@ namespace E_Ticaret
         {
             pictureBoxBack.Image = E_Ticaret.Properties.Resources.arrowLeftBlue;
         }
+
+        private void panelCategoryAdd_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 }
